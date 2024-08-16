@@ -11,6 +11,9 @@ def predict(obj_detector, image_name):
 
     for r in results:
 
+        r.show()  # Display the image with predictions
+        #r.save()  # Save the image with predictions
+        '''
         boxes = r.boxes
 
         for box in boxes:
@@ -24,15 +27,15 @@ def predict(obj_detector, image_name):
             cls = int(box.cls[0])
 
             print(f"Class name: {r.names[cls]}. Confidence: {confidence}. Window ---> (x1, y1) = ({x1}, {y1}), (x2, y2) = ({x2}, {y2})")
-
+'''
 
 object_detector = ObjectDetector()
 
-predict(object_detector, "person1.jpg")
 
-'''
+predict(object_detector, "person1.jpg")
+predict(object_detector, "cat_dog.jpg")
 predict(object_detector, "bus1.jpg")
 predict(object_detector, "car1.jpg")
 predict(object_detector, "dog1.jpg")
 predict(object_detector, "cat1.jpg")
-'''
+
