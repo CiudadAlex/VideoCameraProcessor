@@ -42,19 +42,8 @@ def predict_batch():
     # predict(object_detector, "cat1.jpg")
 
 
-import configparser
-
-config = configparser.ConfigParser()
-config.read('config.properties')
-print(config['DEFAULT']['user'])
-
-user = config['DEFAULT']['user']
-password = config['DEFAULT']['password']
-host = config['DEFAULT']['host']
-
-
 def test_cam():
-    rtsp_client = RtspClient(user, password, host)
+    rtsp_client = RtspClient.from_config_file('config.properties')
     rtsp_client.show_screen()
     rtsp_client.close()
 
