@@ -1,5 +1,6 @@
 from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
+import time
 
 base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
@@ -41,10 +42,14 @@ def predict_batch():
 
 def test_cam():
     rtsp_client = RtspClient.from_config_file('config.properties')
-    rtsp_client.show_screen()
+
+    for i in range(10):
+        time.sleep(2.5)
+        rtsp_client.show_screen()
+
     rtsp_client.close()
 
 
-predict_batch()
-# test_cam()
+# predict_batch()
+test_cam()
 

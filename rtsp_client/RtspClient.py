@@ -1,5 +1,4 @@
 import rtsp
-import time
 import configparser
 
 
@@ -24,9 +23,10 @@ class RtspClient:
         return cls(user, password, host)
 
     def show_screen(self):
-
-        time.sleep(2.5)
         self.client.read().show()
+
+    def save_screen(self, file_path):
+        self.client.read().save(file_path)
 
     def close(self):
         self.client.close()
