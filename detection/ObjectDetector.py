@@ -13,6 +13,6 @@ class ObjectDetector:
         self.model = YOLO(".models/yolov8" + size + ".pt")  # load an official model
 
     def predict(self, image_path):
-        results = self.model.predict(source=image_path, conf=0.2)
+        results = self.model.predict(source=image_path, conf=0.7)
         return results
 
