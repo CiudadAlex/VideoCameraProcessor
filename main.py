@@ -1,5 +1,5 @@
-from ObjectDetector import ObjectDetector
-import math
+from detection.ObjectDetector import ObjectDetector
+from rtsp_client.RtspClient import RtspClient
 
 base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
@@ -29,13 +29,36 @@ def predict(obj_detector, image_name):
             print(f"Class name: {r.names[cls]}. Confidence: {confidence}. Window ---> (x1, y1) = ({x1}, {y1}), (x2, y2) = ({x2}, {y2})")
 '''
 
-object_detector = ObjectDetector()
+
+def predict_batch():
+
+    object_detector = ObjectDetector()
+
+    predict(object_detector, "person1.jpg")
+    predict(object_detector, "cat_dog.jpg")
+    predict(object_detector, "bus1.jpg")
+    # predict(object_detector, "car1.jpg")
+    # predict(object_detector, "dog1.jpg")
+    # predict(object_detector, "cat1.jpg")
 
 
-predict(object_detector, "person1.jpg")
-predict(object_detector, "cat_dog.jpg")
-predict(object_detector, "bus1.jpg")
-predict(object_detector, "car1.jpg")
-predict(object_detector, "dog1.jpg")
-predict(object_detector, "cat1.jpg")
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.properties')
+print(config['DEFAULT']['user'])
+
+user = config['DEFAULT']['user']
+password = config['DEFAULT']['password']
+host = config['DEFAULT']['host']
+
+
+def test_cam():
+    rtsp_client = RtspClient(user, password, host)
+    rtsp_client.show_screen()
+    rtsp_client.close()
+
+
+# predict_batch()
+test_cam()
 
