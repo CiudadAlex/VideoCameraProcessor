@@ -32,14 +32,11 @@ def predict(obj_detector, image_name):
 
 def predict_batch():
 
-    object_detector = ObjectDetector()
+    object_detector = ObjectDetector(size="x")
 
     predict(object_detector, "person1.jpg")
     predict(object_detector, "cat_dog.jpg")
     predict(object_detector, "bus1.jpg")
-    # predict(object_detector, "car1.jpg")
-    # predict(object_detector, "dog1.jpg")
-    # predict(object_detector, "cat1.jpg")
 
 
 def test_cam():
@@ -48,6 +45,6 @@ def test_cam():
     rtsp_client.close()
 
 
-# predict_batch()
-test_cam()
+predict_batch()
+# test_cam()
 
