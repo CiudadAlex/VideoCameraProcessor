@@ -50,5 +50,10 @@ class ObjectDetector:
                 # class name
                 cls = int(box.cls[0])
 
-                print(f"Class name: {r.names[cls]}. Confidence: {confidence}. Window ---> (x1, y1) = ({x1}, {y1}), (x2, y2) = ({x2}, {y2})")
+                print(f"Class name: {r.names[cls]}. Confidence: {confidence}"
+                      f". Window ---> (x1, y1) = ({x1}, {y1}), (x2, y2) = ({x2}, {y2})")
 
+    @staticmethod
+    def show_results(results):
+        for r in results:
+            r.show()  # Display the image with predictions
