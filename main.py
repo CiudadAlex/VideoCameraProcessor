@@ -41,11 +41,19 @@ def predict_batch():
 
 
 def test_cam():
+
+    object_detector = ObjectDetector(size="m")
     rtsp_client = RtspClient.from_config_file('config.properties')
 
-    for i in range(10):
-        time.sleep(2.5)
-        rtsp_client.show_screen()
+    for i in range(20):
+        time.sleep(0.5)
+
+        image_path = "./.out/" + str(i) + ".jpg"
+        rtsp_client.save_screen(image_path)
+        results = object_detector.predict(image_path)
+
+        for r in results:
+            r.show()  # Display the image with predictions
 
     rtsp_client.close()
 
