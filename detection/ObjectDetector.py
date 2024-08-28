@@ -4,14 +4,22 @@ import math
 
 class ObjectDetector:
 
-    def __init__(self, size="x"):
+    def __init__(self, model_path):
+        self.model = YOLO(model_path)
+
+    @classmethod
+    def load_custom_model(cls, model_name):
+        return cls(".models/" + model_name + ".pt")
+
+    @classmethod
+    def load_standard_model(cls, size="x"):
 
         available_sizes = ["n", "s", "m", "l", "x"]
 
         if size not in available_sizes:
             raise Exception(f"Unrecognized model size: {size}. Available sizes: {available_sizes}")
 
-        self.model = YOLO(".models/yolov8" + size + ".pt")  # load an official model
+        return cls(".models/yolov8" + size + ".pt")
 
     def predict(self, image_path_or_pil_image):
         results = self.model.predict(source=image_path_or_pil_image, conf=0.7)
