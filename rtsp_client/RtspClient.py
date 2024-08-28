@@ -28,7 +28,7 @@ class RtspClient:
     def save_screen(self, file_path):
         self.client.read().save(file_path)
 
-    def get_screen(self):
+    def get_pil_image(self):
         return self.client.read()
 
     def close(self):

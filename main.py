@@ -14,9 +14,9 @@ def test_cam():
 
     for i in range(100):
 
-        image = rtsp_client.get_screen()
+        pil_image = rtsp_client.get_pil_image()
 
-        results = object_detector.predict(image)
+        results = object_detector.predict(pil_image)
 
         if ObjectDetector.is_there_object_class(results, desired_class_name):
             ObjectDetector.show_results(results)
