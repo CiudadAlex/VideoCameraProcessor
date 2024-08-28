@@ -2,7 +2,14 @@ from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
 import time
 
-# base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
+base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
+
+
+def test_bird():
+    object_detector = ObjectDetector(size="x")
+    image_path = base_path + "/birds.jpg"
+    results = object_detector.predict(image_path)
+    ObjectDetector.show_results(results)
 
 
 def test_cam():
@@ -21,12 +28,14 @@ def test_cam():
         if ObjectDetector.is_there_object_class(results, desired_class_name):
             ObjectDetector.show_results(results)
             image_path = "./.out/" + str(i) + ".jpg"
-            image.save(image_path)
+            pil_image.save(image_path)
 
         print(f"iteration = {i}")
 
     rtsp_client.close()
 
 
-test_cam()
+# test_cam()
+test_bird()
+
 
