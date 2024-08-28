@@ -6,7 +6,7 @@ base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
 
 def test_bird():
-    object_detector = ObjectDetector.load_standard_model(size="x")
+    object_detector = ObjectDetector.load_custom_model(model_name="birds")
     image_path = base_path + "/birds.jpg"
     results = object_detector.predict(image_path)
     ObjectDetector.show_results(results)
@@ -35,7 +35,7 @@ def test_cam():
     rtsp_client.close()
 
 
-test_cam()
-# test_bird()
+# test_cam()
+test_bird()
 
 

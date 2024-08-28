@@ -16,3 +16,5 @@ class ModelGenerator:
 path_train = "C:/Alex/Dev/data_corpus/VideoCamera/bird detection.v5i.yolov8/data.yaml"
 results = ModelGenerator.train_new_model("yolov8n.pt", path_train)
 print(results)
+
+# FIXME pulir
