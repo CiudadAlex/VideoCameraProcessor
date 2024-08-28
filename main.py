@@ -1,11 +1,9 @@
 from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
 import time
-import os
 
 # base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
-# FIXME https://docs.pyfilesystem.org/en/latest/reference/memoryfs.html
 
 def test_cam():
 
@@ -16,15 +14,14 @@ def test_cam():
 
     for i in range(100):
 
-        image_path = "./.out/" + str(i) + ".jpg"
-        rtsp_client.save_screen(image_path)
+        image = rtsp_client.get_screen()
 
-        results = object_detector.predict(image_path)
+        results = object_detector.predict(image)
 
         if ObjectDetector.is_there_object_class(results, desired_class_name):
             ObjectDetector.show_results(results)
-        else:
-            os.remove(image_path)
+            image_path = "./.out/" + str(i) + ".jpg"
+            image.save(image_path)
 
         print(f"iteration = {i}")
 
