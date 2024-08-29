@@ -1,5 +1,6 @@
 from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
+from utils.KeyboardInterrupter import KeyboardInterrupter
 import time
 
 base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
@@ -36,6 +37,16 @@ def test_cam():
 
 
 # test_cam()
-test_bird()
+# test_bird()
+
+def action_on_close():
+    print("THIS IS THE END")
+
+
+keyboard_interrupter = KeyboardInterrupter(action_on_close)
+keyboard_interrupter.start()
+
+while True:
+    time.sleep(10)
 
 
