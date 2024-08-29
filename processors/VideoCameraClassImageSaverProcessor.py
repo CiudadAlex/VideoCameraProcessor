@@ -1,27 +1,18 @@
 from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
 from utils.KeyboardInterrupter import KeyboardInterrupter
+from utils.ObjectDetectorContainer import ObjectDetectorContainer
 import time
 
 
-class VideoCameraClassImageSaverProcessor:
+class VideoCameraClassImageSaverProcessor(ObjectDetectorContainer):
 
     def __init__(self, object_detector):
-        self.object_detector = object_detector
+        super().__init__(object_detector)
         self.rtsp_client = RtspClient.from_config_file('config.properties')
 
         # To allow the client to connect correctly
         time.sleep(1)
-
-    @classmethod
-    def load_with_custom_model(cls, model_name):
-        object_detector = ObjectDetector.load_custom_model(model_name=model_name)
-        return cls(object_detector)
-
-    @classmethod
-    def load_with_standard_model(cls, size="x"):
-        object_detector = ObjectDetector.load_standard_model(size=size)
-        return cls(object_detector)
 
     def action_on_close(self):
         print("Closing connection with camera...")
