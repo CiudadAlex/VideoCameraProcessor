@@ -28,7 +28,7 @@ class ClassImageSaverProcessor:
         self.rtsp_client.close()
         print("Connection with camera closed")
 
-    def save_images_with_class(self, desired_class_name):
+    def save_images_with_class(self, desired_class_name, show_in_screen=True):
 
         keyboard_interrupter = KeyboardInterrupter(self.action_on_close)
         keyboard_interrupter.start()
@@ -42,7 +42,10 @@ class ClassImageSaverProcessor:
             results = self.object_detector.predict(pil_image)
 
             if ObjectDetector.is_there_object_class(results, desired_class_name):
-                ObjectDetector.show_results(results)
+
+                if show_in_screen:
+                    ObjectDetector.show_results(results)
+
                 image_path = "./.out/" + desired_class_name + "_" + str(i) + ".jpg"
                 pil_image.save(image_path)
 
