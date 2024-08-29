@@ -1,6 +1,6 @@
 from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
-from utils.KeyboardInterrupter import KeyboardInterrupter
+from processors.ClassImageSaverProcessor import ClassImageSaverProcessor
 import time
 
 base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
@@ -39,14 +39,7 @@ def test_cam():
 # test_cam()
 # test_bird()
 
-def action_on_close():
-    print("THIS IS THE END")
 
-
-keyboard_interrupter = KeyboardInterrupter(action_on_close)
-keyboard_interrupter.start()
-
-while True:
-    time.sleep(10)
-
+class_image_saver_processor = ClassImageSaverProcessor.load_with_standard_model(size="m")
+class_image_saver_processor.save_images_with_class("person")
 

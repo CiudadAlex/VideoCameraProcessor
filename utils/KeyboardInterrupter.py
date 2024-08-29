@@ -22,5 +22,3 @@ class KeyboardInterrupter:
             os._exit(0)
             # Stop listener
             return False
-
-    # FIXME pulir
