@@ -4,7 +4,7 @@ from utils.KeyboardInterrupter import KeyboardInterrupter
 import time
 
 
-class ClassImageSaverProcessor:
+class VideoCameraClassImageSaverProcessor:
 
     def __init__(self, object_detector):
         self.object_detector = object_detector
