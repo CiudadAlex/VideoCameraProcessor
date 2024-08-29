@@ -16,4 +16,3 @@ class ObjectDetectorContainer:
         object_detector = ObjectDetector.load_standard_model(size=size)
         return cls(object_detector)
 
-    # FIXME use in processors
