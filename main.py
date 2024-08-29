@@ -17,5 +17,5 @@ if execute_action == "VideoCameraClassImageSaverProcessor":
 
 if execute_action == "ModelGenerator":
     path_train = base_path + "/vidar.v2i.yolov8/data.yaml"
-    results = ModelGenerator.train_new_model("./models/yolov8n.pt", path_train, epochs=20)
+    results = ModelGenerator.train_new_model("./.models/yolov8n.pt", path_train, epochs=20)
     print(results)
