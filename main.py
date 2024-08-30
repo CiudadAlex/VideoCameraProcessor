@@ -3,7 +3,7 @@ from processors.ShowDetectionsProcessor import ShowDetectionsProcessor
 from detection.ModelGenerator import ModelGenerator
 
 
-execute_action = "ModelGenerator"
+execute_action = "ShowDetectionsProcessor"
 base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
 
