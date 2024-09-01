@@ -7,6 +7,7 @@ class CycleQueue:
         self.q = []
         self.lock = threading.Lock()
         self.max_size = max_size
+        self.original_max_size = max_size
         self.last_item = None
 
     def add(self, item):
@@ -22,4 +23,21 @@ class CycleQueue:
 
         with self.lock:
             return self.get_last_item
+
+    def get_all_and_reset(self):
+
+        with self.lock:
+            returned_list = self.q
+            self.q = []
+            return returned_list
+
+    def remove_limit_max_size(self):
+
+        with self.lock:
+            self.max_size = 1000000000
+
+    def restore_limit_max_size(self):
+
+        with self.lock:
+            self.max_size = self.original_max_size
 
