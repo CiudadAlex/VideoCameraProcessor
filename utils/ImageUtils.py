@@ -1,6 +1,7 @@
 import imageio
 import numpy as np
 
+
 class ImageUtils:
 
     @staticmethod
