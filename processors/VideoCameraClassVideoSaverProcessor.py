@@ -52,6 +52,11 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
         while True:
 
             pil_image = self.cycle_queue.get_last_item()
+
+            if pil_image is None:
+                time.sleep(1)
+                continue
+
             results = self.object_detector.predict(pil_image)
 
             if ObjectDetector.is_there_object_class(results, desired_class_name):
