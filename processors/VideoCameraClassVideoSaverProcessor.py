@@ -33,7 +33,9 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
         thread_save_images_in_cycle_queue = threading.Thread(target=self.save_images_in_cycle_queue)
         thread_save_images_in_cycle_queue.start()
 
-        # FIXME call thread with detect_las_image_in_queue
+        thread_save_images_in_cycle_queue = threading.Thread(target=self.detect_last_image_in_queue,
+                                                             args=(desired_class_name, show_in_screen, path_output))
+        thread_save_images_in_cycle_queue.start()
 
     def save_images_in_cycle_queue(self):
 
@@ -45,8 +47,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
             self.cycle_queue.add(pil_image)
             time_regulator.wait_until_next_milestone()
 
-    # FIXME finish
-    def detect_las_image_in_queue(self, desired_class_name, show_in_screen=True, path_output="./.out"):
+    def detect_last_image_in_queue(self, desired_class_name, show_in_screen=True, path_output="./.out"):
 
         while True:
 
@@ -67,4 +68,4 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
 
                 self.recording = False
                 list_images_pil = self.cycle_queue.get_all_and_reset()
-                ImageUtils.generate_gif(".out/desired_class_name.gif", list_images_pil)
+                ImageUtils.generate_gif(path_output + "/desired_class_name.gif", list_images_pil)
