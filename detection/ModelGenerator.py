@@ -6,9 +6,6 @@ class ModelGenerator:
     @staticmethod
     def train_new_model(model_path, yaml_path, epochs):
 
-        # import torch
-        # torch.cuda.set_device(0)
-
         # Load a model
         model = YOLO(model_path)
 
