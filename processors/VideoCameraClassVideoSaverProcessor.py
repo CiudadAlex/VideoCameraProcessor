@@ -14,7 +14,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
     def __init__(self, object_detector):
         super().__init__(object_detector)
         self.rtsp_client = RtspClient.from_config_file('config.properties')
-        self.cycle_queue = CycleQueue(100)
+        self.cycle_queue = CycleQueue(200)
         self.recording = False
 
         # To allow the client to connect correctly
@@ -73,4 +73,4 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
 
                 self.recording = False
                 list_images_pil = self.cycle_queue.get_all_and_reset()
-                ImageUtils.generate_gif(path_output + "/desired_class_name.gif", list_images_pil)
+                ImageUtils.generate_mp4(f"{path_output}/{desired_class_name}.mp4", list_images_pil)
