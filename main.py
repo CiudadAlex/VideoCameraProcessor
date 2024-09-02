@@ -2,7 +2,10 @@ from processors.VideoCameraClassImageSaverProcessor import VideoCameraClassImage
 from processors.VideoCameraClassVideoSaverProcessor import VideoCameraClassVideoSaverProcessor
 from processors.ShowDetectionsProcessor import ShowDetectionsProcessor
 from detection.ModelGenerator import ModelGenerator
+from utils.Log import Log
 
+
+Log.config()
 
 execute_action = "VideoCameraClassVideoSaverProcessor"
 base_path = "C:/Alex/Dev/data_corpus/VideoCamera"

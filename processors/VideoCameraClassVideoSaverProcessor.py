@@ -7,6 +7,7 @@ from utils.ImageUtils import ImageUtils
 from utils.CycleQueue import CycleQueue
 import time
 import threading
+import logging
 
 
 class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
@@ -28,7 +29,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
         print("Connection with camera closed")
 
     def save_images_with_class(self, desired_class_name, show_in_screen=True, path_output="./.out",
-                               max_not_detection_to_finish_video=5):
+                               max_not_detection_to_finish_video=10):
 
         keyboard_interrupter = KeyboardInterrupter(self.action_on_close)
         keyboard_interrupter.start()
@@ -65,6 +66,8 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
 
             if ObjectDetector.is_there_object_class(results, desired_class_name):
 
+                logging.debug("Detection")
+
                 if show_in_screen:
                     ObjectDetector.show_results(results)
 
@@ -76,10 +79,13 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
 
             elif self.recording and self.count_not_detection_to_finish_video < max_not_detection_to_finish_video:
                 self.count_not_detection_to_finish_video = self.count_not_detection_to_finish_video + 1
+                logging.debug(f"count_not_detection_to_finish_video = {self.count_not_detection_to_finish_video}")
 
             elif self.recording:
 
+                logging.debug(f"Write mp4 = {self.video_id}")
                 self.recording = False
                 list_images_pil = self.cycle_queue.get_all_and_reset()
                 ImageUtils.generate_mp4(f"{path_output}/{desired_class_name}_{self.video_id}.mp4", list_images_pil)
                 self.video_id = self.video_id + 1
+
