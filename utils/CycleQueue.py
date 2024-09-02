@@ -22,7 +22,7 @@ class CycleQueue:
     def get_last_item(self):
 
         with self.lock:
-            return self.get_last_item
+            return self.last_item
 
     def get_all_and_reset(self):
 
