@@ -29,15 +29,10 @@ class CycleQueue:
         with self.lock:
             returned_list = self.q
             self.q = []
+            self.max_size = self.original_max_size
             return returned_list
 
     def remove_limit_max_size(self):
 
         with self.lock:
             self.max_size = 1000000000
-
-    def restore_limit_max_size(self):
-
-        with self.lock:
-            self.max_size = self.original_max_size
-
