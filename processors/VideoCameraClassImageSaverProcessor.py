@@ -19,7 +19,7 @@ class VideoCameraClassImageSaverProcessor(ObjectDetectorContainer):
         self.rtsp_client.close()
         print("Connection with camera closed")
 
-    def save_images_with_class(self, desired_class_name, show_in_screen=True, path_output="./.out"):
+    def save_images_with_class(self, desired_class_name, show_in_screen=False, path_output="./.out"):
 
         keyboard_interrupter = KeyboardInterrupter(self.action_on_close)
         keyboard_interrupter.start()
