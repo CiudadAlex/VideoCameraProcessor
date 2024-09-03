@@ -31,3 +31,22 @@ while process.poll() is None:
     packet = process.stdout.read(packet_size)
     print(packet)
 '''
+
+'''
+
+friendly_name: “Move left”
+command_on: ‘curl -k “http://xxx:xxx@192.168.1.41:8300/cgi-bin/hi3510/ptzctrl.cgi?-step=1&-act=left”’
+
+friendly_name: “Move right”
+command_on: ‘curl -k “http://xxx:xxx@192.168.1.41:8300/cgi-bin/hi3510/ptzctrl.cgi?-step=1&-act=right”’
+
+friendly_name: “Move up”
+command_on: ‘curl -k “http://xxx:xxx@192.168.1.41:8300/cgi-bin/hi3510/ptzctrl.cgi?-step=1&-act=up”’
+
+friendly_name: “Move down”
+command_on: ‘curl -k “http://xxx:xxx@192.168.1.41:8300/cgi-bin/hi3510/ptzctrl.cgi?-step=1&-act=down”’
+
+friendly_name: “Home”
+command_off: ‘curl -k “http://xxx:xxx@192.168.1.41:8300/cgi-bin/hi3510/ptzctrl.cgi?-step=1&-act=home
+
+'''
