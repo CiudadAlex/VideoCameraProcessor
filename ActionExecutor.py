@@ -34,7 +34,7 @@ class ActionExecutor:
     def validate(execute_action, target):
 
         if execute_action not in ActionExecutor.list_actions_available:
-            raise Exception(f"Invalid action '{execute_action}'. Available actions: {ActionExecutor.map_target_2_action_item.keys()}")
+            raise Exception(f"Invalid action '{execute_action}'. Available actions: {ActionExecutor.list_actions_available}")
 
         if target not in ActionExecutor.map_target_2_action_item:
             raise Exception(f"Invalid target '{target}'. Available targets: {ActionExecutor.map_target_2_action_item.keys()}")
