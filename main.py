@@ -17,6 +17,7 @@ if __name__ == '__main__':
 
 # FIXME test XSaverProcessors and ModelGenerator
 # FIXME test ffmpeg
+# FIXME test movement control
 
 '''
 
