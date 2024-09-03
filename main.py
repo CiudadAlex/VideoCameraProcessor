@@ -8,12 +8,16 @@ from utils.Log import Log
 if __name__ == '__main__':
     Log.config()
 
-    execute_action = "ModelGenerator_BIRDS"
+    execute_action = "ShowDetectionsProcessor_BIRDS"
     base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
-    if execute_action == "ShowDetectionsProcessor":
+    if execute_action == "ShowDetectionsProcessor_LIGHTNINGS":
         show_detections_processor = ShowDetectionsProcessor.load_with_custom_model(model_name="lightnings")
         show_detections_processor.show_detections(list_image_path=[base_path + "/lightning.jpg"])
+
+    if execute_action == "ShowDetectionsProcessor_BIRDS":
+        show_detections_processor = ShowDetectionsProcessor.load_with_custom_model(model_name="birds_gpu_40_epoch")
+        show_detections_processor.show_detections(list_image_path=[base_path + "/birds.jpg"])
 
     if execute_action == "VideoCameraClassImageSaverProcessor_BIRDS":
         video_camera_class_image_saver_processor = VideoCameraClassImageSaverProcessor.load_with_custom_model(model_name="birds")
