@@ -22,9 +22,9 @@ class ActionExecutor:
     base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
     map_target_2_action_item = {
-        "LIGHTNINGS": ActionItem("lightnings_size_n_gpu_40_epoch", "Lightning", "lightning.jpg", "vidar.v2i.yolov8", True, "yolov8n", 50),
-        "BIRDS":      ActionItem("birds_size_n_gpu_40_epoch", "bird", "birds.jpg", "bird detection.v5i.yolov8", True, "yolov8n", 50),
-        "PEOPLE":     ActionItem("yolov8n", "person", "", "", True, "yolov8n", 50)
+        "LIGHTNINGS": ActionItem("lightnings_size_n_gpu_40_epoch", "Lightning", "lightning.jpg", "vidar.v2i.yolov8", False, "yolov8n", 50),
+        "BIRDS":      ActionItem("birds_size_n_gpu_40_epoch", "bird", "birds.jpg", "bird detection.v5i.yolov8", False, "yolov8n", 50),
+        "PEOPLE":     ActionItem("yolov8n", "person", "", "", False, "yolov8n", 50)
     }
 
     list_actions_available = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor",
