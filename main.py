@@ -10,12 +10,12 @@ if __name__ == '__main__':
     targets = ["LIGHTNINGS", "BIRDS",  "PEOPLE"]
     '''
 
-    execute_action = "ShowDetectionsProcessor"
-    target = "LIGHTNINGS"
+    execute_action = "VideoCameraClassVideoSaverProcessor"
+    target = "BIRDS"
     ActionExecutor.execute(execute_action, target)
 
 
-# FIXME test XSaverProcessors and ModelGenerator
+# FIXME test ModelGenerator
 # FIXME test ffmpeg
 # FIXME test movement control
 
