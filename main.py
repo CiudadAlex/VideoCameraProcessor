@@ -32,62 +32,8 @@ while process.poll() is None:
     print(packet)
 '''
 
-import time
-from onvif import ONVIFCamera
-mycam = ONVIFCamera('192.168.0.21', 2020, 'deuterio', 'D3uT33RR10', './venv/Lib/site-packages/wsdl/')
+from camera_movement.CameraMovement import CameraMovement
 
-
-# Create ptz service
-ptz = mycam.create_ptz_service()
-print(ptz)
-media = mycam.create_media_service()
-
-# Get target profile
-media_profile = media.GetProfiles()[0]
-
-# Get PTZ configuration options for getting continuous move range
-request = ptz.create_type('GetConfigurationOptions')
-configuration_token = media_profile.PTZConfiguration.token
-request.ConfigurationToken = configuration_token
-ptz_configuration_options = ptz.GetConfigurationOptions(configuration_token)
-
-moverequest = ptz.create_type('ContinuousMove')
-moverequest.ProfileToken = media_profile.token
-
-"""
-if moverequest.Velocity is None:
-    moverequest.Velocity = ptz.GetStatus({'ProfileToken': media_profile.token}).Position
-    moverequest.Velocity.PanTilt.space = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].URI
-    moverequest.Velocity.Zoom.space = ptz_configuration_options.Spaces.ContinuousZoomVelocitySpace[0].URI
-"""
-
-# Get range of pan and tilt
-XMAX = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].XRange.Max
-XMIN = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].XRange.Min
-YMAX = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange.Max
-YMIN = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange.Min
-
-print(str(XMIN) + " " + str(XMAX) + " " + str(YMIN) + " " + str(YMAX))
-
-velocity = {
-    "PanTilt": {
-        "x": XMIN,
-        "y": YMIN,
-    },
-}
-moverequest.Velocity = velocity
-
-time.sleep(2)
-
-print ('move left...')
-#request.Velocity.PanTilt.x = XMIN
-#request.Velocity.PanTilt.y = 0
-
-def do_move(ptz, request):
-    # Start continuous move
-    # ptz.Stop({'ProfileToken': request.ProfileToken})
-    ptz.ContinuousMove(request)
-
-do_move(ptz, moverequest)
-
+camera_movement = CameraMovement.from_config_file(config_file='config.properties')
+camera_movement.move_min()
 
