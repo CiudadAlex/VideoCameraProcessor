@@ -16,7 +16,7 @@ if __name__ == '__main__2':
 
 
 # FIXME test ffmpeg
-# FIXME test movement control
+# FIXME tracking processor
 
 '''
 
@@ -35,5 +35,5 @@ while process.poll() is None:
 from camera_movement.CameraMovement import CameraMovement
 
 camera_movement = CameraMovement.from_config_file(config_file='config.properties')
-camera_movement.move_min()
+camera_movement.move_a_bit()
 

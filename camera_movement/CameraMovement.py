@@ -19,14 +19,15 @@ class CameraMovement:
         ptz_configuration_options = self.ptz.GetConfigurationOptions(configuration_token)
 
         # Get range of pan and tilt
-        self.X_MAX = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].XRange.Max
-        self.X_MIN = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].XRange.Min
-        self.Y_MAX = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange.Max
-        self.Y_MIN = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange.Min
+        self.X_MAX_CONTINUOUS = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].XRange.Max
+        self.X_MIN_CONTINUOUS = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].XRange.Min
+        self.Y_MAX_CONTINUOUS = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange.Max
+        self.Y_MIN_CONTINUOUS = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange.Min
 
-        print(str(self.X_MIN) + " " + str(self.X_MAX) + " " + str(self.Y_MIN) + " " + str(self.Y_MAX))
-
-        # FIXME RelativePanTiltTranslationSpace
+        self.X_MAX_RELATIVE = ptz_configuration_options.Spaces.RelativePanTiltTranslationSpace[0].XRange.Max
+        self.X_MIN_RELATIVE = ptz_configuration_options.Spaces.RelativePanTiltTranslationSpace[0].XRange.Min
+        self.Y_MAX_RELATIVE = ptz_configuration_options.Spaces.RelativePanTiltTranslationSpace[0].YRange.Max
+        self.Y_MIN_RELATIVE = ptz_configuration_options.Spaces.RelativePanTiltTranslationSpace[0].YRange.Min
 
         time.sleep(2)
 
@@ -42,7 +43,7 @@ class CameraMovement:
         host = config[section]['host']
         return cls(user, password, host)
 
-    def move(self, x, y):
+    def move_continuous(self, x, y):
 
         move_request = self.ptz.create_type('ContinuousMove')
         move_request.ProfileToken = self.media_profile.token
@@ -56,9 +57,28 @@ class CameraMovement:
         move_request.Velocity = velocity
         self.ptz.ContinuousMove(move_request)
 
+    def move_relative(self, x, y):
+
+        move_request = self.ptz.create_type('RelativeMove')
+        move_request.ProfileToken = self.media_profile.token
+
+        translation = {
+            "PanTilt": {
+                "x": x,
+                "y": y,
+            },
+        }
+        move_request.Translation = translation
+        self.ptz.RelativeMove(move_request)
+
+    # FIXME pulir. En mover relativo que sean porcentajes de min-max
+
     def move_min(self):
-        self.move(self.X_MIN, self.X_MIN)
+        self.move_continuous(self.X_MIN_CONTINUOUS, self.X_MIN_CONTINUOUS)
 
     def move_max(self):
-        self.move(self.X_MAX, self.X_MAX)
+        self.move_continuous(self.X_MAX_RELATIVE, self.X_MAX_RELATIVE)
+
+    def move_a_bit(self):
+        self.move_relative(0.1, 0.1)
 
