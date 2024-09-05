@@ -4,3 +4,5 @@ configparser==7.1.0
 pynput==1.7.7
 cuda-python==11.6.1
 imageio==2.35.1
+ffmpeg-python==0.2.0
+onvif-zeep==0.2.12
