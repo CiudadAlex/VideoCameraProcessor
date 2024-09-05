@@ -69,6 +69,14 @@ YMIN = ptz_configuration_options.Spaces.ContinuousPanTiltVelocitySpace[0].YRange
 
 print(str(XMIN) + " " + str(XMAX) + " " + str(YMIN) + " " + str(YMAX))
 
+velocity = {
+    "PanTilt": {
+        "x": XMIN,
+        "y": YMIN,
+    },
+}
+moverequest.Velocity = velocity
+
 time.sleep(2)
 
 print ('move left...')
