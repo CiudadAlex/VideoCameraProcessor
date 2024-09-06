@@ -1,6 +1,8 @@
 import wx
 from camera_movement.CameraMovement import CameraMovement
 import traceback
+from rtsp_client.RtspClient import RtspClient
+import time
 
 
 class CameraMovementUI(wx.Frame):
@@ -21,6 +23,24 @@ class CameraMovementUI(wx.Frame):
         self.create_button_pad(panel)
 
         self.camera_movement = CameraMovement.from_config_file(config_file='config.properties')
+
+        # FIXME refactor
+
+        self.rtsp_client = RtspClient.from_config_file('config.properties')
+
+        # To allow the client to connect correctly
+        time.sleep(1)
+
+        pil_image = self.rtsp_client.get_pil_image()
+        width, height = pil_image.size
+        new_size = (round(width / 10), round(height / 10))
+        pil_image = pil_image.resize(new_size)
+
+        wx_image = wx.EmptyImage(pil_image.size[0], pil_image.size[1])  # Image
+        wx_image.SetData(pil_image.convert("RGB").tobytes())
+        bitmap = wx.BitmapFromImage(wx_image)  # wx.Bitmap
+        static_bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.NullBitmap)
+        static_bitmap.SetBitmap(bitmap)
 
         self.Show()
 
