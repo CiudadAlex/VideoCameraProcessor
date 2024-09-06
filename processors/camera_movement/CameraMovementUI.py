@@ -78,7 +78,7 @@ class CameraMovementUI(wx.Frame):
     def on_press_up(self, event):
         try:
             self.camera_movement.move_up()
-            time.sleep(1)
+            time.sleep(2)
             self.update_static_bitmap()
         except:
             print("Problem with command up")
@@ -87,7 +87,7 @@ class CameraMovementUI(wx.Frame):
     def on_press_down(self, event):
         try:
             self.camera_movement.move_down()
-            time.sleep(1)
+            time.sleep(2)
             self.update_static_bitmap()
         except:
             print("Problem with command down")
@@ -96,7 +96,7 @@ class CameraMovementUI(wx.Frame):
     def on_press_left(self, event):
         try:
             self.camera_movement.move_left()
-            time.sleep(1)
+            time.sleep(2)
             self.update_static_bitmap()
         except:
             print("Problem with command left")
@@ -105,7 +105,7 @@ class CameraMovementUI(wx.Frame):
     def on_press_right(self, event):
         try:
             self.camera_movement.move_right()
-            time.sleep(1)
+            time.sleep(2)
             self.update_static_bitmap()
         except:
             print("Problem with command right")
@@ -114,7 +114,7 @@ class CameraMovementUI(wx.Frame):
     def on_press_home(self, event):
         try:
             self.camera_movement.move_home()
-            time.sleep(2)
+            time.sleep(5)
             self.update_static_bitmap()
         except:
             print("Problem with command home")
