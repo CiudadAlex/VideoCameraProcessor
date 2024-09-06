@@ -1,4 +1,5 @@
 import wx
+from camera_movement.CameraMovement import CameraMovement
 
 
 class CameraMovementUI(wx.Frame):
@@ -11,6 +12,8 @@ class CameraMovementUI(wx.Frame):
         panel = wx.Panel(self)
 
         self.create_button_pad(panel)
+
+        self.camera_movement = CameraMovement.from_config_file(config_file='config.properties')
 
         self.Show()
 
@@ -25,6 +28,7 @@ class CameraMovementUI(wx.Frame):
         CameraMovementUI.build_button_with_action(panel, 'DOWN', (left_margin + button_width, up_margin + 2 * button_height), self.on_press_down)
         CameraMovementUI.build_button_with_action(panel, 'LEFT', (left_margin, up_margin + button_height), self.on_press_left)
         CameraMovementUI.build_button_with_action(panel, 'RIGHT', (left_margin + 2 * button_width, up_margin + button_height), self.on_press_right)
+        CameraMovementUI.build_button_with_action(panel, 'HOME', (left_margin + button_width, up_margin + button_height), self.on_press_home)
 
     @staticmethod
     def build_button_with_action(panel, label, pos, action):
@@ -32,14 +36,16 @@ class CameraMovementUI(wx.Frame):
         my_btn.Bind(wx.EVT_BUTTON, action)
 
     def on_press_up(self, event):
-        print("up")
+        self.camera_movement.move_up()
 
     def on_press_down(self, event):
-        print("down")
+        self.camera_movement.move_down()
 
     def on_press_left(self, event):
-        print("left")
+        self.camera_movement.move_left()
 
     def on_press_right(self, event):
-        print("right")
+        self.camera_movement.move_right()
 
+    def on_press_home(self, event):
+        self.camera_movement.move_home()

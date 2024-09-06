@@ -71,14 +71,23 @@ class CameraMovement:
         move_request.Translation = translation
         self.ptz.RelativeMove(move_request)
 
+    def move_home(self):
+        x_home = (self.X_MAX_CONTINUOUS + self.X_MIN_CONTINUOUS) / 2
+        y_home = (self.Y_MAX_CONTINUOUS + self.Y_MIN_CONTINUOUS) / 2
+        self.move_continuous(x_home, y_home)
+
     # FIXME pulir. En mover relativo que sean porcentajes de min-max
 
-    def move_min(self):
-        self.move_continuous(self.X_MIN_CONTINUOUS, self.X_MIN_CONTINUOUS)
+    def move_up(self):
+        self.move_relative(0, 0.1)
 
-    def move_max(self):
-        self.move_continuous(self.X_MAX_RELATIVE, self.X_MAX_RELATIVE)
+    def move_down(self):
+        self.move_relative(0, -0.1)
 
-    def move_a_bit(self):
-        self.move_relative(0.1, 0.1)
+    def move_left(self):
+        self.move_relative(-0.1, 0)
+
+    def move_right(self):
+        self.move_relative(0.1, 0)
+
 
