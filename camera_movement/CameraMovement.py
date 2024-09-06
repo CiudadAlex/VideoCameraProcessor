@@ -29,6 +29,11 @@ class CameraMovement:
         self.Y_MAX_RELATIVE = ptz_configuration_options.Spaces.RelativePanTiltTranslationSpace[0].YRange.Max
         self.Y_MIN_RELATIVE = ptz_configuration_options.Spaces.RelativePanTiltTranslationSpace[0].YRange.Min
 
+        self.X_MAX_ABSOLUTE = ptz_configuration_options.Spaces.AbsolutePanTiltPositionSpace[0].XRange.Max
+        self.X_MIN_ABSOLUTE = ptz_configuration_options.Spaces.AbsolutePanTiltPositionSpace[0].XRange.Min
+        self.Y_MAX_ABSOLUTE = ptz_configuration_options.Spaces.AbsolutePanTiltPositionSpace[0].YRange.Max
+        self.Y_MIN_ABSOLUTE = ptz_configuration_options.Spaces.AbsolutePanTiltPositionSpace[0].YRange.Min
+
         time.sleep(2)
 
     @classmethod
@@ -71,12 +76,25 @@ class CameraMovement:
         move_request.Translation = translation
         self.ptz.RelativeMove(move_request)
 
+    def move_absolute(self, x, y):
+
+        move_request = self.ptz.create_type('AbsoluteMove')
+        move_request.ProfileToken = self.media_profile.token
+
+        position = {
+            "PanTilt": {
+                "x": x,
+                "y": y,
+            },
+        }
+        move_request.Position = position
+        self.ptz.AbsoluteMove(move_request)
+
     def move_home(self):
 
-        # Revisar y ver Absolute movement
-        x_home = (self.X_MAX_CONTINUOUS + self.X_MIN_CONTINUOUS) / 2
-        y_home = (self.Y_MAX_CONTINUOUS + self.Y_MIN_CONTINUOUS) / 2
-        self.move_continuous(x_home, y_home)
+        x_home = (self.X_MAX_ABSOLUTE + self.X_MIN_ABSOLUTE) / 2
+        y_home = (self.Y_MAX_ABSOLUTE + self.Y_MIN_ABSOLUTE) / 2
+        self.move_absolute(x_home, y_home)
 
     def move_up(self):
         step = self.get_step_up_down()
