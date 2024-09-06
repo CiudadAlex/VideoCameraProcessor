@@ -40,11 +40,13 @@ class CameraMovementUI(wx.Frame):
         button_height = CameraMovementUI.button_height
         margin_button_pad_image = 30
 
-        wx_image = wx.EmptyImage(pil_image.size[0], pil_image.size[1])  # Image
+        wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
         wx_image.SetData(pil_image.convert("RGB").tobytes())
-        bitmap = wx.BitmapFromImage(wx_image)  # wx.Bitmap
+        bitmap = wx.Bitmap(wx_image)
         static_bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.NullBitmap, pos=(left_margin, up_margin + 3 * button_height + margin_button_pad_image))
         static_bitmap.SetBitmap(bitmap)
+
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
 
         self.Show()
 
@@ -107,3 +109,8 @@ class CameraMovementUI(wx.Frame):
         except:
             print("Problem with command home")
             traceback.print_exc()
+
+    def OnClose(self, event):
+        print("Closing stream")
+        self.rtsp_client.close()
+        self.Destroy()
