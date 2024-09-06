@@ -9,6 +9,8 @@ class CameraMovementUI(wx.Frame):
 
     button_height = 50
     button_width = 100
+    button_pad_left_margin = 30
+    button_pad_up_margin = 30
 
     @staticmethod
     def launch():
@@ -18,36 +20,45 @@ class CameraMovementUI(wx.Frame):
 
     def __init__(self):
         super().__init__(parent=None, title='Camera Control Pad')
-        panel = wx.Panel(self)
+        panel = wx.Panel(self, size=(300, 500))
 
         self.create_button_pad(panel)
 
         self.camera_movement = CameraMovement.from_config_file(config_file='config.properties')
-
-        # FIXME refactor
 
         self.rtsp_client = RtspClient.from_config_file('config.properties')
 
         # To allow the client to connect correctly
         time.sleep(1)
 
-        pil_image = self.rtsp_client.get_pil_image()
-        width, height = pil_image.size
-        new_size = (round(width / 10), round(height / 10))
-        pil_image = pil_image.resize(new_size)
+        # FIXME refactor
+
+        pil_image = self.get_pil_image_from_camera()
+
+        left_margin = CameraMovementUI.button_pad_left_margin
+        up_margin = CameraMovementUI.button_pad_up_margin
+        button_height = CameraMovementUI.button_height
+        margin_button_pad_image = 30
 
         wx_image = wx.EmptyImage(pil_image.size[0], pil_image.size[1])  # Image
         wx_image.SetData(pil_image.convert("RGB").tobytes())
         bitmap = wx.BitmapFromImage(wx_image)  # wx.Bitmap
-        static_bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.NullBitmap)
+        static_bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.NullBitmap, pos=(left_margin, up_margin + 3 * button_height + margin_button_pad_image))
         static_bitmap.SetBitmap(bitmap)
 
         self.Show()
 
+    def get_pil_image_from_camera(self):
+        pil_image = self.rtsp_client.get_pil_image()
+        width, height = pil_image.size
+        new_size = (round(width / 8), round(height / 8))
+        pil_image = pil_image.resize(new_size)
+        return pil_image
+
     def create_button_pad(self, panel):
 
-        left_margin = 30
-        up_margin = 30
+        left_margin = CameraMovementUI.button_pad_left_margin
+        up_margin = CameraMovementUI.button_pad_up_margin
         button_height = CameraMovementUI.button_height
         button_width = CameraMovementUI.button_width
 
