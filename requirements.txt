@@ -6,3 +6,4 @@ cuda-python==11.6.1
 imageio==2.35.1
 ffmpeg-python==0.2.0
 onvif-zeep==0.2.12
+wxPython==4.2.1
