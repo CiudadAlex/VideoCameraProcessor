@@ -19,8 +19,8 @@ class CameraMovementUI(wx.Frame):
         app.MainLoop()
 
     def __init__(self):
-        super().__init__(parent=None, title='Camera Control Pad')
-        panel = wx.Panel(self, size=(300, 500))
+        super().__init__(parent=None, title='Camera Control Pad', size=(400, 500))
+        panel = wx.Panel(self)
 
         self.create_button_pad(panel)
 
@@ -33,18 +33,17 @@ class CameraMovementUI(wx.Frame):
 
         # FIXME refactor
 
-        pil_image = self.get_pil_image_from_camera()
-
         left_margin = CameraMovementUI.button_pad_left_margin
         up_margin = CameraMovementUI.button_pad_up_margin
         button_height = CameraMovementUI.button_height
         margin_button_pad_image = 30
 
+        pil_image = self.get_pil_image_from_camera()
         wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
         wx_image.SetData(pil_image.convert("RGB").tobytes())
         bitmap = wx.Bitmap(wx_image)
-        static_bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.NullBitmap, pos=(left_margin, up_margin + 3 * button_height + margin_button_pad_image))
-        static_bitmap.SetBitmap(bitmap)
+        self.static_bitmap = wx.StaticBitmap(panel, wx.ID_ANY, wx.NullBitmap, pos=(left_margin, up_margin + 3 * button_height + margin_button_pad_image))
+        self.static_bitmap.SetBitmap(bitmap)
 
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
@@ -78,6 +77,12 @@ class CameraMovementUI(wx.Frame):
     def on_press_up(self, event):
         try:
             self.camera_movement.move_up()
+            time.sleep(1)
+            pil_image = self.get_pil_image_from_camera()
+            wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
+            wx_image.SetData(pil_image.convert("RGB").tobytes())
+            bitmap = wx.Bitmap(wx_image)
+            self.static_bitmap.SetBitmap(bitmap)
         except:
             print("Problem with command up")
             traceback.print_exc()
@@ -85,6 +90,12 @@ class CameraMovementUI(wx.Frame):
     def on_press_down(self, event):
         try:
             self.camera_movement.move_down()
+            time.sleep(1)
+            pil_image = self.get_pil_image_from_camera()
+            wx_image = wx.Image(pil_image.size[0], pil_image.size[1])
+            wx_image.SetData(pil_image.convert("RGB").tobytes())
+            bitmap = wx.Bitmap(wx_image)
+            self.static_bitmap.SetBitmap(bitmap)
         except:
             print("Problem with command down")
             traceback.print_exc()
