@@ -31,21 +31,11 @@ while process.poll() is None:
     packet = process.stdout.read(packet_size)
     print(packet)
 '''
-'''
-from camera_movement.CameraMovement import CameraMovement
-
-camera_movement = CameraMovement.from_config_file(config_file='config.properties')
-camera_movement.move_a_bit()
-'''
 
 from processors.camera_movement.CameraMovementUI import CameraMovementUI
-import wx
 
+CameraMovementUI.launch()
 
-if __name__ == '__main__':
-    app = wx.App()
-    frame = CameraMovementUI()
-    app.MainLoop()
 
 
 
