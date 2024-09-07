@@ -2,6 +2,9 @@
 
 class Traker:
 
+    margin_both_less_do_nothing = 10
+    factor_to_trigger_movement = 10
+
     def __init__(self, width, height, camera_movement):
         self.width = width
         self.height = height
@@ -15,8 +18,30 @@ class Traker:
 
         left_margin = x1
         right_margin = self.width - x2
+        self.left_right_track(left_margin, right_margin)
+
         up_margin = y1
         down_margin = self.height - y2
+        self.up_down_track(up_margin, down_margin)
 
-    # FIXME finish
+    def left_right_track(self, left_margin, right_margin):
 
+        if left_margin < Traker.margin_both_less_do_nothing and right_margin < Traker.margin_both_less_do_nothing:
+            return
+
+        factor_left_right = (left_margin + 1) / (right_margin + 1)
+        if factor_left_right > Traker.factor_to_trigger_movement:
+            self.camera_movement.move_right()
+        elif 1/factor_left_right > Traker.factor_to_trigger_movement:
+            self.camera_movement.move_left()
+
+    def up_down_track(self, up_margin, down_margin):
+
+        if up_margin < Traker.margin_both_less_do_nothing and down_margin < Traker.margin_both_less_do_nothing:
+            return
+
+        factor_up_down = (up_margin + 1) / (down_margin + 1)
+        if factor_up_down > Traker.factor_to_trigger_movement:
+            self.camera_movement.move_down()
+        elif 1 / factor_up_down > Traker.factor_to_trigger_movement:
+            self.camera_movement.move_up()
