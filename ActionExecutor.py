@@ -3,6 +3,7 @@ from processors.VideoCameraClassVideoSaverProcessor import VideoCameraClassVideo
 from processors.ShowDetectionsProcessor import ShowDetectionsProcessor
 from detection.ModelGenerator import ModelGenerator
 from detection.ObjectDetector import ObjectDetector
+from processors.camera_movement.CameraMovementUI import CameraMovementUI
 
 
 class ActionItem:
@@ -28,7 +29,7 @@ class ActionExecutor:
     }
 
     list_actions_available = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor",
-                              "VideoCameraClassVideoSaverProcessor", "ModelGenerator"]
+                              "VideoCameraClassVideoSaverProcessor", "ModelGenerator", "CameraMovementUI"]
 
     @staticmethod
     def validate(execute_action, target):
@@ -104,3 +105,8 @@ class ActionExecutor:
 
         if execute_action == "ModelGenerator":
             ActionExecutor.exec_model_generator(action_item)
+
+        if execute_action == "CameraMovementUI":
+            CameraMovementUI.launch()
+
+

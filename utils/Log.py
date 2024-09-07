@@ -8,7 +8,9 @@ class Log:
     def config():
 
         path_log_file = "./.out/log.txt"
-        os.remove(path_log_file)
+
+        if os.path.exists(path_log_file):
+            os.remove(path_log_file)
 
         logging.basicConfig(filename=path_log_file,
                             filemode='a',

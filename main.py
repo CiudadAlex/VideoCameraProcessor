@@ -2,15 +2,16 @@ from utils.Log import Log
 from ActionExecutor import ActionExecutor
 
 
-if __name__ == '__main__2':
+if __name__ == '__main__':
     Log.config()
 
     '''
-    actions = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor", "VideoCameraClassVideoSaverProcessor", "ModelGenerator"]
+    actions = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor", "VideoCameraClassVideoSaverProcessor", 
+               "ModelGenerator", "CameraMovementUI"]
     targets = ["LIGHTNINGS", "BIRDS",  "PEOPLE"]
     '''
 
-    execute_action = "ModelGenerator"
+    execute_action = "CameraMovementUI"
     target = "LIGHTNINGS"
     ActionExecutor.execute(execute_action, target)
 
@@ -31,11 +32,4 @@ while process.poll() is None:
     packet = process.stdout.read(packet_size)
     print(packet)
 '''
-
-from processors.camera_movement.CameraMovementUI import CameraMovementUI
-
-CameraMovementUI.launch()
-
-
-
 
