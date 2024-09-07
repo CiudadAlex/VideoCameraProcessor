@@ -11,8 +11,8 @@ if __name__ == '__main__':
     targets = ["LIGHTNINGS", "BIRDS",  "PEOPLE"]
     '''
 
-    execute_action = "CameraMovementUI"
-    target = "LIGHTNINGS"
+    execute_action = "VideoCameraClassVideoSaverProcessor"
+    target = "PEOPLE"
     ActionExecutor.execute(execute_action, target)
 
 
