@@ -17,10 +17,8 @@ if __name__ == '__main__':
 
 
 # FIXME test ffmpeg
-# FIXME tracking processor
 
 '''
-
 import ffmpeg
 
 packet_size = 4096
@@ -32,4 +30,3 @@ while process.poll() is None:
     packet = process.stdout.read(packet_size)
     print(packet)
 '''
-

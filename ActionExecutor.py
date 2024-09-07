@@ -26,7 +26,7 @@ class ActionExecutor:
     map_target_2_action_item = {
         "LIGHTNINGS": ActionItem("lightnings_size_n_gpu_40_epoch", "Lightning", "lightning.jpg", "vidar.v2i.yolov8", False, "yolov8n", 50, False),
         "BIRDS":      ActionItem("birds_size_n_gpu_40_epoch", "bird", "birds.jpg", "bird detection.v5i.yolov8", False, "yolov8n", 50, False),
-        "PEOPLE":     ActionItem("yolov8n", "person", None, None, True, "yolov8n", 50, True)
+        "PEOPLE":     ActionItem("yolov8n", "person", None, None, False, "yolov8n", 50, True)
     }
 
     list_actions_available = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor",
