@@ -1,6 +1,6 @@
 
 
-class Traker:
+class Tracker:
 
     margin_both_less_do_nothing = 10
     factor_to_trigger_movement = 10
