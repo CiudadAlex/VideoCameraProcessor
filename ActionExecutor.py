@@ -8,7 +8,7 @@ from processors.camera_movement.CameraMovementUI import CameraMovementUI
 
 class ActionItem:
 
-    def __init__(self, model_name, desired_class_name, example_image, train_dir, show_in_screen, train_base_model, epochs):
+    def __init__(self, model_name, desired_class_name, example_image, train_dir, show_in_screen, train_base_model, epochs, track):
         self.model_name = model_name
         self.desired_class_name = desired_class_name
         self.example_image = example_image
@@ -16,6 +16,7 @@ class ActionItem:
         self.show_in_screen = show_in_screen
         self.train_base_model = train_base_model
         self.epochs = epochs
+        self.track = track
 
 
 class ActionExecutor:
@@ -23,9 +24,9 @@ class ActionExecutor:
     base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
 
     map_target_2_action_item = {
-        "LIGHTNINGS": ActionItem("lightnings_size_n_gpu_40_epoch", "Lightning", "lightning.jpg", "vidar.v2i.yolov8", False, "yolov8n", 50),
-        "BIRDS":      ActionItem("birds_size_n_gpu_40_epoch", "bird", "birds.jpg", "bird detection.v5i.yolov8", False, "yolov8n", 50),
-        "PEOPLE":     ActionItem("yolov8n", "person", "", "", False, "yolov8n", 50)
+        "LIGHTNINGS": ActionItem("lightnings_size_n_gpu_40_epoch", "Lightning", "lightning.jpg", "vidar.v2i.yolov8", False, "yolov8n", 50, False),
+        "BIRDS":      ActionItem("birds_size_n_gpu_40_epoch", "bird", "birds.jpg", "bird detection.v5i.yolov8", False, "yolov8n", 50, False),
+        "PEOPLE":     ActionItem("yolov8n", "person", None, None, True, "yolov8n", 50, True)
     }
 
     list_actions_available = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor",
@@ -70,10 +71,12 @@ class ActionExecutor:
 
         desired_class_name = action_item.desired_class_name
         show_in_screen = action_item.show_in_screen
+        track = action_item.track
         object_detector = ActionExecutor.get_object_detector(action_item)
         video_camera_class_video_saver_processor = VideoCameraClassVideoSaverProcessor(object_detector)
         video_camera_class_video_saver_processor.save_videos_with_class(desired_class_name=desired_class_name,
-                                                                        show_in_screen=show_in_screen)
+                                                                        show_in_screen=show_in_screen,
+                                                                        track=track)
 
     @staticmethod
     def exec_model_generator(action_item):

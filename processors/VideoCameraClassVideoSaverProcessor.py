@@ -2,9 +2,11 @@ from detection.ObjectDetector import ObjectDetector
 from rtsp_client.RtspClient import RtspClient
 from utils.KeyboardInterrupter import KeyboardInterrupter
 from utils.ObjectDetectorContainer import ObjectDetectorContainer
+from camera_movement.CameraMovement import CameraMovement
 from utils.TimeRegulator import TimeRegulator
 from utils.ImageUtils import ImageUtils
 from utils.CycleQueue import CycleQueue
+from camera_movement.Tracker import Tracker
 import time
 import threading
 import logging
@@ -15,6 +17,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
     def __init__(self, object_detector):
         super().__init__(object_detector)
         self.rtsp_client = RtspClient.from_config_file('config.properties')
+        self.camera_movement = CameraMovement.from_config_file(config_file='config.properties')
         self.cycle_queue = CycleQueue(100)
         self.recording = False
         self.count_not_detection_to_finish_video = 0
@@ -29,7 +32,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
         print("Connection with camera closed")
 
     def save_videos_with_class(self, desired_class_name, show_in_screen=True, path_output="./.out",
-                               max_not_detection_to_finish_video=10):
+                               max_not_detection_to_finish_video=10, track=False):
 
         keyboard_interrupter = KeyboardInterrupter(self.action_on_close)
         keyboard_interrupter.start()
@@ -39,7 +42,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
 
         thread_save_images_in_cycle_queue = \
             threading.Thread(target=self.detect_last_image_in_queue,
-                             args=(desired_class_name, show_in_screen, path_output, max_not_detection_to_finish_video))
+                             args=(desired_class_name, show_in_screen, path_output, max_not_detection_to_finish_video, track))
         thread_save_images_in_cycle_queue.start()
 
     def save_images_in_cycle_queue(self):
@@ -52,7 +55,7 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
             self.cycle_queue.add(pil_image)
             time_regulator.wait_until_next_milestone()
 
-    def detect_last_image_in_queue(self, desired_class_name, show_in_screen, path_output, max_not_detection_to_finish_video):
+    def detect_last_image_in_queue(self, desired_class_name, show_in_screen, path_output, max_not_detection_to_finish_video, track):
 
         while True:
 
@@ -70,6 +73,14 @@ class VideoCameraClassVideoSaverProcessor(ObjectDetectorContainer):
 
                 if show_in_screen:
                     ObjectDetector.show_results(results)
+
+                if track:
+                    bounding_box = ObjectDetector.get_bounding_box_vertices_of_single_object_of_class(results, desired_class_name)
+                    if bounding_box is not None:
+                        (rectangle_up_left_position, rectangle_down_right_position) = bounding_box
+                        width, height = pil_image.size
+                        traker = Tracker(width, height, self.camera_movement)
+                        traker.track(rectangle_up_left_position, rectangle_down_right_position)
 
                 self.recording = True
                 self.count_not_detection_to_finish_video = 0
