@@ -15,6 +15,7 @@ class Log:
         open(path_log_file, 'a').close()
 
         logging.basicConfig(filename=path_log_file,
+                            force=True,
                             filemode='a',
                             format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                             datefmt='%H:%M:%S',
