@@ -26,22 +26,22 @@ class Tracker:
 
     def left_right_track(self, left_margin, right_margin):
 
-        if left_margin < Traker.margin_both_less_do_nothing and right_margin < Traker.margin_both_less_do_nothing:
+        if left_margin < Tracker.margin_both_less_do_nothing and right_margin < Tracker.margin_both_less_do_nothing:
             return
 
         factor_left_right = (left_margin + 1) / (right_margin + 1)
-        if factor_left_right > Traker.factor_to_trigger_movement:
+        if factor_left_right > Tracker.factor_to_trigger_movement:
             self.camera_movement.move_right()
-        elif 1/factor_left_right > Traker.factor_to_trigger_movement:
+        elif 1/factor_left_right > Tracker.factor_to_trigger_movement:
             self.camera_movement.move_left()
 
     def up_down_track(self, up_margin, down_margin):
 
-        if up_margin < Traker.margin_both_less_do_nothing and down_margin < Traker.margin_both_less_do_nothing:
+        if up_margin < Tracker.margin_both_less_do_nothing and down_margin < Tracker.margin_both_less_do_nothing:
             return
 
         factor_up_down = (up_margin + 1) / (down_margin + 1)
-        if factor_up_down > Traker.factor_to_trigger_movement:
+        if factor_up_down > Tracker.factor_to_trigger_movement:
             self.camera_movement.move_down()
-        elif 1 / factor_up_down > Traker.factor_to_trigger_movement:
+        elif 1 / factor_up_down > Tracker.factor_to_trigger_movement:
             self.camera_movement.move_up()
