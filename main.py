@@ -1,5 +1,6 @@
 from utils.Log import Log
 from ActionExecutor import ActionExecutor
+from processors.audio_commander.AudioCommanderProcessor import AudioCommanderProcessor
 
 
 if __name__ == '__main__':
@@ -17,21 +18,6 @@ if __name__ == '__main__':
 
 
 # FIXME test ffmpeg
+audio_commander_processor = AudioCommanderProcessor.from_config_file('config.properties')
+audio_commander_processor.start_recording()
 
-
-import ffmpeg
-
-rtsp_url = 'rtsp://xxx:xxx@192.168.0.21:554/stream1'
-output_file = './.out/output_audio.wav'
-
-print(f'Start...')
-
-# Extract audio and save to file
-(
-    ffmpeg
-    .input(rtsp_url)
-    .output(output_file, format='wav', acodec='pcm_s16le', map='0:a')
-    .run()
-)
-
-print(f'Audio saved to {output_file}')
