@@ -40,4 +40,67 @@ class AudioCommanderProcessor:
         process.terminate()
         print(f'Audio saved to {self.output_file}')
 
+        # I need to create a python code that can connect to a RTSP stream  and store the audio in a file
+        # instead of saving it to an audio file, how can I send it to the library SpeechRecognition so that I can obtain the text from the speech
 
+'''
+import ffmpeg
+import pyaudio
+import speech_recognition as sr
+
+# RTSP stream URL
+rtsp_url = 'rtsp://your_rtsp_stream_url'
+
+# Audio format settings
+audio_format = pyaudio.paInt16
+channels = 1
+rate = 44100
+chunk = 1024
+
+# Initialize PyAudio
+p = pyaudio.PyAudio()
+
+# Open a stream to save audio
+stream = p.open(format=audio_format,
+                channels=channels,
+                rate=rate,
+                input=True,
+                frames_per_buffer=chunk)
+
+# Initialize the recognizer
+recognizer = sr.Recognizer()
+
+# Capture audio from RTSP stream
+process = (
+    ffmpeg
+    .input(rtsp_url)
+    .output('pipe:', format='wav')
+    .run_async(pipe_stdout=True)
+)
+
+print("Recording... Press Ctrl+C to stop.")
+
+try:
+    while True:
+        data = process.stdout.read(chunk)
+        if not data:
+            break
+        audio_data = sr.AudioData(data, rate, p.get_sample_size(audio_format))
+        try:
+            text = recognizer.recognize_google(audio_data)
+            print("Recognized Text: ", text)
+        except sr.UnknownValueError:
+            print("Google Speech Recognition could not understand audio")
+        except sr.RequestError as e:
+            print(f"Could not request results from Google Speech Recognition service; {e}")
+except KeyboardInterrupt:
+    print("Recording stopped.")
+    process.terminate()
+
+# Close everything
+stream.stop_stream()
+stream.close()
+p.terminate()
+process.stdout.close()
+
+'''
