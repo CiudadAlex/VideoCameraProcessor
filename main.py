@@ -18,15 +18,20 @@ if __name__ == '__main__':
 
 # FIXME test ffmpeg
 
-'''
+
 import ffmpeg
 
-packet_size = 4096
+rtsp_url = 'rtsp://xxx:xxx@192.168.0.21:554/stream1'
+output_file = './.out/output_audio.wav'
 
-process = ffmpeg.input('rtsp://xxxx:xxxx@192.168.0.21:554/stream1').output('./.out/audio.mp4', format='mulaw').run_async(pipe_stdout=True)
-packet = process.stdout.read(packet_size)
+print(f'Start...')
 
-while process.poll() is None:
-    packet = process.stdout.read(packet_size)
-    print(packet)
-'''
+# Extract audio and save to file
+(
+    ffmpeg
+    .input(rtsp_url)
+    .output(output_file, format='wav', acodec='pcm_s16le', map='0:a')
+    .run()
+)
+
+print(f'Audio saved to {output_file}')
