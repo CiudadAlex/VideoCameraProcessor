@@ -1,5 +1,6 @@
 import configparser
 import ffmpeg
+import time
 
 
 class AudioCommanderProcessor:
@@ -26,12 +27,17 @@ class AudioCommanderProcessor:
         print(f'Start...')
 
         # Extract audio and save to file
-        (
+        process = (
             ffmpeg
             .input(self.rtsp_url)
             .output(self.output_file, format='wav', acodec='pcm_s16le', map='0:a')
-            .run()
+            .run_async(pipe_stdout=True)
         )
 
+        time.sleep(20)
+        process.stdout.close()
+        time.sleep(1)
+        process.terminate()
         print(f'Audio saved to {self.output_file}')
+
 
