@@ -20,4 +20,4 @@ if __name__ == '__main__2':
 # FIXME test ffmpeg
 
 audio_commander_processor = AudioCommanderProcessor.from_config_file('config.properties')
-audio_commander_processor.start_recording()
+audio_commander_processor.start_recording(save_audio_files=True)

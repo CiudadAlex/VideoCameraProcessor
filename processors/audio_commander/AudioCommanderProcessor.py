@@ -61,10 +61,10 @@ class AudioCommanderProcessor:
             print(f"Could not request results from Google Speech Recognition service; {e}")
 
     # Function to capture audio from RTSP stream
-    def capture_audio(self, rtsp_url, chunk_size):
+    def capture_audio(self, save_audio_files):
         process = (
             ffmpeg
-            .input(rtsp_url)
+            .input(self.rtsp_url)
             .output('pipe:', format='wav', acodec='pcm_s16le', ac=1, ar='16000')
             .run_async(pipe_stdout=True)
         )
@@ -78,19 +78,22 @@ class AudioCommanderProcessor:
                 break
             audio_chunk += in_bytes
 
-            if len(audio_chunk) >= chunk_size:
+            if len(audio_chunk) >= self.chunk_size:
                 chunk_filename = f"./.out/audio_chunk_{chunk_count}.wav"
                 chunk_count = chunk_count + 1
-                self.save_audio_chunk(audio_chunk, chunk_filename)
+
+                if save_audio_files:
+                    self.save_audio_chunk(audio_chunk, chunk_filename)
+
                 self.process_audio_chunk(audio_chunk)
                 audio_chunk = b''
 
-    def start_recording(self):
+    def start_recording(self, save_audio_files):
 
         print(f'Start...')
 
         # Start capturing audio in a separate thread
-        audio_thread = threading.Thread(target=self.capture_audio, args=(self.rtsp_url, self.chunk_size))
+        audio_thread = threading.Thread(target=self.capture_audio, args=(save_audio_files,))
         audio_thread.start()
 
         # Keep the main thread alive
@@ -99,4 +102,7 @@ class AudioCommanderProcessor:
                 time.sleep(1)
         except KeyboardInterrupt:
             print("Stopping audio capture...")
+
+    # FIXME one thread to recover audio chunks and the other to send them to recognizer. Can be used with a queue
+    # FIXME accumulate text until no recognition before interpreting it
 
