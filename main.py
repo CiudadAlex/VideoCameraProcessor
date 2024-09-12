@@ -84,6 +84,8 @@ def capture_audio(rtsp_url, chunk_size):
         .run_async(pipe_stdout=True)
     )
 
+    chunk_count = 0
+
     audio_chunk = b''
     while True:
         in_bytes = process.stdout.read(1024)
@@ -92,8 +94,8 @@ def capture_audio(rtsp_url, chunk_size):
         audio_chunk += in_bytes
 
         if len(audio_chunk) >= chunk_size:
-            timestamp = int(time.time())
-            chunk_filename = f"audio_chunk_{timestamp}.wav"
+            chunk_filename = f"./.out/audio_chunk_{chunk_count}.wav"
+            chunk_count = chunk_count + 1
             save_audio_chunk(audio_chunk, chunk_filename)
             process_audio_chunk(chunk_filename)
             audio_chunk = b''
@@ -111,3 +113,7 @@ try:
         time.sleep(1)
 except KeyboardInterrupt:
     print("Stopping audio capture...")
+
+
+'''
+I need to create a python code that can connect to a RTSP stream and send chunks of the audio data to the library SpeechRecognition so that I can obtain the text from the speech. I also need to use the function 'adjust_for_ambient_noise' from the recognizer to reduce the noise. I want also to save each chunk of audio in a file for later check. The chunks must be of 10 seconds'''
