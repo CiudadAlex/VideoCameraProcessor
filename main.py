@@ -50,30 +50,38 @@ import speech_recognition as sr
 import time
 import threading
 
+# Initialize PyAudio
+p = pyaudio.PyAudio()
+
 # Initialize recognizer
 recognizer = sr.Recognizer()
+rate = 16000
+audio_format = pyaudio.paInt16
+
 
 # Function to save audio chunks
 def save_audio_chunk(chunk, filename):
     wf = wave.open(filename, 'wb')
     wf.setnchannels(1)
-    wf.setsampwidth(pyaudio.PyAudio().get_sample_size(pyaudio.paInt16))
-    wf.setframerate(16000)
+    wf.setsampwidth(p.get_sample_size(audio_format))
+    wf.setframerate(rate)
     wf.writeframes(chunk)
     wf.close()
 
+
 # Function to process audio chunks
-def process_audio_chunk(chunk):
-    with sr.AudioFile(chunk) as source:
-        recognizer.adjust_for_ambient_noise(source)
-        audio = recognizer.record(source)
-        try:
-            text = recognizer.recognize_google(audio)
-            print(f"Recognized Text: {text}")
-        except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand audio")
-        except sr.RequestError as e:
-            print(f"Could not request results from Google Speech Recognition service; {e}")
+def process_audio_chunk(audio_chunk):
+
+    audio_data = sr.AudioData(audio_chunk, rate, p.get_sample_size(audio_format))
+
+    try:
+        text = recognizer.recognize_google(audio_data)
+        print(f"Recognized Text: {text}")
+    except sr.UnknownValueError:
+        print("Google Speech Recognition could not understand audio")
+    except sr.RequestError as e:
+        print(f"Could not request results from Google Speech Recognition service; {e}")
+
 
 # Function to capture audio from RTSP stream
 def capture_audio(rtsp_url, chunk_size):
@@ -97,7 +105,7 @@ def capture_audio(rtsp_url, chunk_size):
             chunk_filename = f"./.out/audio_chunk_{chunk_count}.wav"
             chunk_count = chunk_count + 1
             save_audio_chunk(audio_chunk, chunk_filename)
-            process_audio_chunk(chunk_filename)
+            process_audio_chunk(audio_chunk)
             audio_chunk = b''
 
 
