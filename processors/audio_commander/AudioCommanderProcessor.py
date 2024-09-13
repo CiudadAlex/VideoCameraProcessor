@@ -5,6 +5,7 @@ import wave
 import speech_recognition as sr
 import time
 import threading
+import queue
 
 
 class AudioCommanderProcessor:
@@ -24,6 +25,8 @@ class AudioCommanderProcessor:
         self.rate = 16000
         self.audio_format = pyaudio.paInt16
         self.chunk_size = self.rate * 10  # 10 seconds
+
+        self.q = queue.Queue()
 
     @classmethod
     def from_config_file(cls, config_file):
@@ -79,13 +82,14 @@ class AudioCommanderProcessor:
             audio_chunk += in_bytes
 
             if len(audio_chunk) >= self.chunk_size:
-                chunk_filename = f"./.out/audio_chunk_{chunk_count}.wav"
-                chunk_count = chunk_count + 1
 
                 if save_audio_files:
+                    chunk_filename = f"./.out/audio_chunk_{chunk_count}.wav"
+                    chunk_count = chunk_count + 1
                     self.save_audio_chunk(audio_chunk, chunk_filename)
 
-                self.process_audio_chunk(audio_chunk)
+                self.q.put(audio_chunk)
+
                 audio_chunk = b''
 
     def start_recording(self, save_audio_files):
@@ -100,9 +104,12 @@ class AudioCommanderProcessor:
         try:
             while True:
                 time.sleep(1)
+                audio_chunk = self.q.get()
+                self.process_audio_chunk(audio_chunk)
+                self.q.task_done()
+
         except KeyboardInterrupt:
             print("Stopping audio capture...")
 
-    # FIXME one thread to recover audio chunks and the other to send them to recognizer. Can be used with a queue
     # FIXME accumulate text until no recognition before interpreting it
 
