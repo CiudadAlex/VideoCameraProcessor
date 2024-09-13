@@ -26,7 +26,8 @@ class AudioCommanderProcessor:
         self.audio_format = pyaudio.paInt16
         self.chunk_size = self.rate * 10  # 10 seconds
 
-        self.q = queue.Queue()
+        self.queue_of_chunks = queue.Queue()
+        self.recognized_text = None
 
     @classmethod
     def from_config_file(cls, config_file):
@@ -51,17 +52,28 @@ class AudioCommanderProcessor:
         wf.close()
 
     # Function to process audio chunks
-    def process_audio_chunk(self, audio_chunk):
+    def process_audio_chunk(self, audio_chunk, function_with_recognized_text):
 
         audio_data = sr.AudioData(audio_chunk, self.rate, self.p.get_sample_size(self.audio_format))
 
         try:
             text = self.recognizer.recognize_google(audio_data)
             print(f"Recognized Text: {text}")
+
+            if self.recognized_text is None:
+                self.recognized_text = text
+            else:
+                self.recognized_text = self.recognized_text + " " + text
+
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
+            if self.recognized_text is not None:
+                function_with_recognized_text(self.recognized_text)
+            self.recognized_text = None
+
         except sr.RequestError as e:
             print(f"Could not request results from Google Speech Recognition service; {e}")
+            self.recognized_text = None
 
     # Function to capture audio from RTSP stream
     def capture_audio(self, save_audio_files):
@@ -88,11 +100,11 @@ class AudioCommanderProcessor:
                     chunk_count = chunk_count + 1
                     self.save_audio_chunk(audio_chunk, chunk_filename)
 
-                self.q.put(audio_chunk)
+                self.queue_of_chunks.put(audio_chunk)
 
                 audio_chunk = b''
 
-    def start_recording(self, save_audio_files):
+    def start_recording(self, save_audio_files, function_with_recognized_text):
 
         print(f'Start...')
 
@@ -104,12 +116,10 @@ class AudioCommanderProcessor:
         try:
             while True:
                 time.sleep(1)
-                audio_chunk = self.q.get()
-                self.process_audio_chunk(audio_chunk)
-                self.q.task_done()
+                audio_chunk = self.queue_of_chunks.get()
+                self.process_audio_chunk(audio_chunk, function_with_recognized_text)
+                self.queue_of_chunks.task_done()
 
         except KeyboardInterrupt:
             print("Stopping audio capture...")
-
-    # FIXME accumulate text until no recognition before interpreting it
 

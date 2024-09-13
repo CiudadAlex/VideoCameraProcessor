@@ -16,8 +16,9 @@ if __name__ == '__main__2':
     target = "PEOPLE"
     ActionExecutor.execute(execute_action, target)
 
+def process_text(text):
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + text)
 
-# FIXME test ffmpeg
 
 audio_commander_processor = AudioCommanderProcessor.from_config_file('config.properties')
-audio_commander_processor.start_recording(save_audio_files=True)
+audio_commander_processor.start_recording(save_audio_files=True, function_with_recognized_text=process_text)
