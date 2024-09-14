@@ -1,25 +1,17 @@
 from utils.Log import Log
 from ActionExecutor import ActionExecutor
-from commanders.MusicPlayCommander import MusicPlayCommander
 
 
-if __name__ == '__main__2':
+if __name__ == '__main__':
     Log.config()
 
     '''
     actions = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor", "VideoCameraClassVideoSaverProcessor", 
-               "ModelGenerator", "CameraMovementUI"]
+               "ModelGenerator", "CameraMovementUI", "MusicPlayCommander"]
     targets = ["LIGHTNINGS", "BIRDS",  "PEOPLE"]
     '''
 
-    execute_action = "VideoCameraClassVideoSaverProcessor"
+    execute_action = "MusicPlayCommander"
     target = "PEOPLE"
     ActionExecutor.execute(execute_action, target)
-
-
-base_path = "C:/Alex/Musica"
-music_play_commander = MusicPlayCommander(base_path)
-music_play_commander.start()
-
-# FIXME integrate MusicPlayCommander in ActionExecutor
 

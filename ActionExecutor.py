@@ -4,6 +4,7 @@ from processors.ShowDetectionsProcessor import ShowDetectionsProcessor
 from detection.ModelGenerator import ModelGenerator
 from detection.ObjectDetector import ObjectDetector
 from processors.camera_movement.CameraMovementUI import CameraMovementUI
+from commanders.MusicPlayCommander import MusicPlayCommander
 
 
 class ActionItem:
@@ -22,6 +23,7 @@ class ActionItem:
 class ActionExecutor:
 
     base_path = "C:/Alex/Dev/data_corpus/VideoCamera"
+    base_path_music = "C:/Alex/Musica"
 
     map_target_2_action_item = {
         "LIGHTNINGS": ActionItem("lightnings_size_n_gpu_40_epoch", "Lightning", "lightning.jpg", "vidar.v2i.yolov8", False, "yolov8n", 50, False),
@@ -30,7 +32,8 @@ class ActionExecutor:
     }
 
     list_actions_available = ["ShowDetectionsProcessor", "VideoCameraClassImageSaverProcessor",
-                              "VideoCameraClassVideoSaverProcessor", "ModelGenerator", "CameraMovementUI"]
+                              "VideoCameraClassVideoSaverProcessor", "ModelGenerator", "CameraMovementUI",
+                              "MusicPlayCommander"]
 
     @staticmethod
     def validate(execute_action, target):
@@ -91,6 +94,12 @@ class ActionExecutor:
         print(results)
 
     @staticmethod
+    def exec_music_play_commander(action_item):
+
+        music_play_commander = MusicPlayCommander(ActionExecutor.base_path_music)
+        music_play_commander.start()
+
+    @staticmethod
     def execute(execute_action, target):
 
         ActionExecutor.validate(execute_action, target)
@@ -111,5 +120,8 @@ class ActionExecutor:
 
         if execute_action == "CameraMovementUI":
             CameraMovementUI.launch()
+
+        if execute_action == "MusicPlayCommander":
+            ActionExecutor.exec_music_play_commander(action_item)
 
 
