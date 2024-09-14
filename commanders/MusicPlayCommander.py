@@ -11,7 +11,7 @@ class MusicPlayCommander:
 
     @staticmethod
     def preprocess_name(name):
-        return name.lower().replace(".mp3", "").replace(".wav", "")
+        return name.lower().replace(".mp3", "").replace(".wav", "").replace("_", " ").replace("-", " ")
 
     @staticmethod
     def preprocess_path(path):
