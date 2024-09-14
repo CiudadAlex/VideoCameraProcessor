@@ -43,7 +43,7 @@ class MatchUtils:
     @staticmethod
     def get_list_words_longer_than_2(text):
         list_words = text.split()
-        return list(filter(MatchUtils.get_longer_than_2, list_words))
+        return set(list(filter(MatchUtils.get_longer_than_2, list_words)))
 
     @staticmethod
     def get_longer_than_2(text):

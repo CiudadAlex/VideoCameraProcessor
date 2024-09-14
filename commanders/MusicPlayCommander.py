@@ -25,7 +25,7 @@ class MusicPlayCommander:
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + path_music_file)
         file1 = subprocess.run(["C:/Program Files (x86)/VideoLAN/VLC/vlc.exe", "--started-from-file", path_music_file])
 
-        # FIXME say more than one song
+        # FIXME say more than one song (clean queue)
 
     def start(self):
         audio_commander_processor = AudioCommanderProcessor.from_config_file('config.properties')
