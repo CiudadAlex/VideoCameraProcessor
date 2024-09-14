@@ -10,7 +10,7 @@ class MusicPlayCommander:
 
     def process_text(self, text):
 
-        most_similar_key = MatchUtils.get_most_matching_text_item(text, self.map_file_name_path.keys())
+        most_similar_key = MatchUtils.get_most_matching_text_item(text.lower(), self.map_file_name_path.keys())
         path_music_file = self.map_file_name_path[most_similar_key]
 
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + path_music_file)

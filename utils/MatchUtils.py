@@ -12,6 +12,8 @@ class MatchUtils:
 
             similarity = MatchUtils.get_similarity(text, text_item)
 
+            # print(text + " >> " + text_item + " >> " + str(similarity))
+
             if similarity > max_similarity:
                 max_similarity = similarity
                 most_similar_item = text_item

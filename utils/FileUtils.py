@@ -12,7 +12,7 @@ class FileUtils:
             for name in files:
 
                 path = os.path.join(root, name)
-                map_file_name_2_path[name] = path
+                map_file_name_2_path[name.lower()] = path
 
         return map_file_name_2_path
 

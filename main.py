@@ -29,5 +29,5 @@ audio_commander_processor.start_recording(save_audio_files=True, function_with_r
 
 base_path = "C:/Alex/Musica"
 music_play_commander = MusicPlayCommander(base_path)
-
+music_play_commander.start()
 
