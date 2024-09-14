@@ -68,7 +68,14 @@ class AudioCommanderProcessor:
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
             if self.recognized_text is not None:
+
                 function_with_recognized_text(self.recognized_text)
+
+                print("Back waiting for commands...")
+
+                with self.queue_of_chunks.mutex:
+                    self.queue_of_chunks.queue.clear()
+
             self.recognized_text = None
 
         except sr.RequestError as e:
