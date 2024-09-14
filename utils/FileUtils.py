@@ -4,7 +4,7 @@ import os
 class FileUtils:
 
     @staticmethod
-    def get_map_file_name_2_path(root_dir, preprocess_key):
+    def get_map_file_name_2_path(root_dir, preprocess_name, preprocess_path):
 
         map_file_name_2_path = {}
 
@@ -13,8 +13,8 @@ class FileUtils:
 
                 path = os.path.join(root, name)
 
-                processed_name = preprocess_key(name)
-                map_file_name_2_path[processed_name] = path
+                processed_name = preprocess_name(name)
+                map_file_name_2_path[processed_name] = preprocess_path(path)
 
         return map_file_name_2_path
 
