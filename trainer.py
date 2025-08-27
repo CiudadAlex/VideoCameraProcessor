@@ -10,8 +10,5 @@ def exec_model_generator(train_dir, train_base_model, epochs):
                                           epochs=epochs)
 
 
-train_dir = "cube.v3i.yolov8"
-train_base_model = "yolov8m.pt"
-epochs = 30
-results = exec_model_generator(train_dir, train_base_model, epochs)
+results = exec_model_generator(train_dir="cube.v3i.yolov8", train_base_model="yolov8m.pt", epochs=30)
 print(results)
