@@ -28,7 +28,7 @@ if __name__ == '__main__':
     #                                epochs=30)
     # print(results)
 
-    exec_show_detections_processor(example_image="C:/Alex/Dev/docs/ArmRobot/img/photo_2025-08-08_05-46-46.jpg",
+    exec_show_detections_processor(example_image="cube.jpg",
                                    model_name="cubes_size_n_30_epoch")
 
 
