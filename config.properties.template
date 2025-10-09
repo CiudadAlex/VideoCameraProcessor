@@ -1,0 +1,9 @@
+[DEFAULT]
+# user you set in Advanced Settings -> Camera Account
+user=username
+
+# password you set in Advanced Settings -> Camera Account
+password=password
+
+# ip of the camera, example: 192.168.1.52
+host=192.168.1.52
